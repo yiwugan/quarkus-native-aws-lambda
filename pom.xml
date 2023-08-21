@@ -135,6 +135,12 @@
 		    <artifactId>commons-logging-jboss-logging</artifactId>
 		    <version>1.0.0.Final</version>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.jboss.logmanager/log4j2-jboss-logmanager -->
+		<dependency>
+		    <groupId>org.jboss.logmanager</groupId>
+		    <artifactId>log4j2-jboss-logmanager</artifactId>
+		    <version>1.1.1.Final</version>
+		</dependency>
 
 		<!-- test dependencies -->
 		<dependency>
