@@ -7,6 +7,7 @@ import com.amazonaws.services.lambda.runtime.Context;
 import com.amazonaws.services.lambda.runtime.RequestHandler;
 import com.amazonaws.services.lambda.runtime.events.SecretsManagerRotationEvent;
 import jakarta.enterprise.context.ApplicationScoped;
+import software.amazon.awssdk.http.urlconnection.UrlConnectionHttpClient;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.ecr.EcrClient;
 import software.amazon.awssdk.services.ecr.model.AuthorizationData;
@@ -42,8 +43,10 @@ public class LambdaRotateEcrPassword implements RequestHandler<SecretsManagerRot
 		
 		// get new password
 		System.out.println("Calling ECR to get new login password");
+		// force to use UrlConnectionHttpClient instead apachehttpclient for native build
 		EcrClient ecrClient = EcrClient.builder()
 				.region(Region.CA_CENTRAL_1)
+				.httpClient(UrlConnectionHttpClient.builder().build())
 				.build();
 		GetAuthorizationTokenResponse ecrTokenResponse=ecrClient.getAuthorizationToken();
 
@@ -59,8 +62,10 @@ public class LambdaRotateEcrPassword implements RequestHandler<SecretsManagerRot
 //		System.out.println("----------------------------");
 		
 		System.out.println("Calling SecretsManager to update ECR password");
+		// force to use UrlConnectionHttpClient instead apachehttpclient for native build
 		SecretsManagerClient secretsClient = SecretsManagerClient.builder()
 				.region(Region.CA_CENTRAL_1)
+				.httpClient(UrlConnectionHttpClient.builder().build())
 				.build();
 		PutSecretValueRequest putRequest = PutSecretValueRequest.builder()
 				.secretId(ecrSecretId)
